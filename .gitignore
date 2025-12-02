@@ -1,0 +1,25 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Move / Aptos / Movement
+build/
+.movement/
+aptos/
+.aptos/
+move_contracts/build/
+
+# Environment Variables
+.env
+.env.local

@@ -1,0 +1,16 @@
+[package]
+name = "WenmoCoin"
+version = "1.0.0"
+authors = []
+
+[addresses]
+wenmo = "_"
+std = "0x1"
+
+[dependencies]
+AptosFramework = { local = "/Users/leiyufeng/work/web3_pro/aptos-core/aptos-move/framework/aptos-framework" }
+AptosStdlib    = { local = "/Users/leiyufeng/work/web3_pro/aptos-core/aptos-move/framework/aptos-stdlib" }
+MoveStdlib     = { local = "/Users/leiyufeng/work/web3_pro/aptos-core/aptos-move/framework/move-stdlib" }
+
+[dev-addresses]
+std = "0x1"
