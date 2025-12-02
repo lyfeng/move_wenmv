@@ -140,7 +140,7 @@ function App() {
     <div className="container">
       <header>
         <h1>WEN MOVED Coin ($WENMO) Faucet</h1>
-        <p>Movement M2 Testnet</p>
+        <p>Movement Mainnet</p>
       </header>
 
       <div className="card">
