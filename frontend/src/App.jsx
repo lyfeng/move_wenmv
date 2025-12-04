@@ -119,10 +119,50 @@ function App() {
       fetchData(); // Refresh data
     } catch (err) {
       console.error("Claim failed", err);
-      if (err.message && (err.message.includes("404") || err.message.includes("Account not found"))) {
-        setError("Your account may not be initialized on-chain. Please get some gas tokens first from a faucet to pay for the transaction.");
+      
+      let isAccountNotFoundError = false;
+      let errorMessage = err.message || "Transaction failed";
+
+      // Function to check an object for error patterns
+      const checkErrorObject = (obj) => {
+        if (!obj) return false;
+        // Check for the specific structure user mentioned
+        if (obj.error_code === 'account_not_found') return true;
+        if (obj.message && obj.message.includes('Account not found')) return true;
+        if (typeof obj === 'string' && obj.includes('Account not found')) return true;
+        return false;
+      };
+
+      // Check various places where the error might be hidden
+      if (
+        checkErrorObject(err) ||
+        checkErrorObject(err.body) ||
+        checkErrorObject(err.response?.data) ||
+        checkErrorObject(err.data) ||
+        checkErrorObject(err.cause)
+      ) {
+        isAccountNotFoundError = true;
+      }
+
+      // Sometimes the error message is a JSON string containing the details
+      if (!isAccountNotFoundError && typeof err.message === 'string') {
+        try {
+            // Try to parse the message itself if it looks like JSON
+            if (err.message.trim().startsWith('{')) {
+                const parsed = JSON.parse(err.message);
+                if (checkErrorObject(parsed)) {
+                    isAccountNotFoundError = true;
+                }
+            }
+        } catch (e) {
+            // ignore
+        }
+      }
+
+      if (isAccountNotFoundError) {
+        setError("Your account may not be initialized on-chain. Please transfer some gas tokens from another account to initialize your account.");
       } else {
-        setError(err.message || "Transaction failed");
+        setError(errorMessage);
       }
     } finally {
       setLoading(false);
